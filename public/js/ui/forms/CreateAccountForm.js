@@ -1,6 +1,5 @@
 /**
- * Класс CreateAccountForm управляет формой
- * создания нового счёта
+ * Класс CreateAccountForm управляет формой создания нового счёта
  * */
 class CreateAccountForm extends AsyncForm {
   /**
@@ -9,6 +8,12 @@ class CreateAccountForm extends AsyncForm {
    * и сбрасывает форму
    * */
   onSubmit(data) {
-
+    Account.create(data, (err, response) => {
+      if (response.success) {
+        App.getModal('createAccount').close();
+        document.querySelector('.new-account-form').reset();
+        App.update();
+      }
+    })
   }
 }

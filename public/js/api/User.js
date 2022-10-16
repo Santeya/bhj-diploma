@@ -23,7 +23,7 @@ class User {
     createRequest({
       url: this.URL + '/current',
       method: 'GET',
-      callback(err, response) {
+      callback: (err, response) => {
         if (response && response.user) {
           this.setCurrent(response.user);
         } else {
@@ -58,7 +58,7 @@ class User {
       url: this.URL + '/register',
       method: 'POST',
       data,
-      callback(err, response) {
+      callback: (err, response) => {
         if (response && response.user) {
           this.setCurrent(response.user);
         } 
@@ -67,18 +67,17 @@ class User {
     })
   }
 
-  /**
-   * Производит выход из приложения. После успешного
-   * выхода необходимо вызвать метод User.unsetCurrent
-   * */
+  // Производит выход из приложения. После успешного
+  // выхода необходимо вызвать метод User.unsetCurrent
   static logout(callback) {
     createRequest({
       url: this.URL + '/logout',
       method: 'POST',
-      callback(err, response) {
+      callback: (err, response) => {
         if (response.success) {  //?
           this.unsetCurrent();
         }
+        callback(err, response);
       }
     })
   }
