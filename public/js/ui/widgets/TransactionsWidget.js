@@ -1,8 +1,5 @@
 
 // Класс TransactionsWidget отвечает за открытие всплывающих окон для
-
-//const { application } = require("express");
-
 // создания нового дохода или расхода
 class TransactionsWidget {
  

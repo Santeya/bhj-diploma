@@ -17,13 +17,11 @@ class Modal {
   // При нажатии на элемент с data-dismiss="modal"
   // должен закрыть текущее окно (с помощью метода Modal.onClose)
   registerEvents() {
-    const buttons = this.element.querySelectorAll('button');
+    const buttons = this.element.querySelectorAll('button[data-dismiss]');
     for (let button of buttons) {
-      if (button.hasAttribute('data-dismiss')) {
         button.onclick = (event) => {
           event.preventDefault();
-          this.onClose();
-        }
+          this.onClose();    
       }
     }
   }

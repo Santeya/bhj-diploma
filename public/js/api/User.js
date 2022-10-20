@@ -74,7 +74,7 @@ class User {
       url: this.URL + '/logout',
       method: 'POST',
       callback: (err, response) => {
-        if (response.success) {  //?
+        if (response && response.user) {  
           this.unsetCurrent();
         }
         callback(err, response);

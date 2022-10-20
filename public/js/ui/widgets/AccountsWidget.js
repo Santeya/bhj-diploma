@@ -24,16 +24,14 @@ class AccountsWidget {
    * вызывает AccountsWidget.onSelectAccount()
    * */
   registerEvents() {
-    const createAccount = document.querySelector('.create-account');
-    createAccount.addEventListener('click', () => {
-      App.getModal('createAccount').open();
+    this.element.addEventListener('click', (event) => {
+      if (event.target.classList.contains('create-account')) {
+        App.getModal('createAccount').open();
+      }
+      if (event.target.classList.contains('account')) {
+        AccountsWidget.onSelectAccount(event.target.classList.contains('account'));
+      }
     })
-    const accounts = document.querySelectorAll('.account');
-    for (let account of accounts) {
-      account.addEventListener('click', () => {
-        AccountsWidget.onSelectAccount();
-      })
-    }
   }
 
   /**
@@ -89,7 +87,7 @@ class AccountsWidget {
    * */
   getAccountHTML(item) {
     return (
-      `<li class="active account" data-id=${item.id}>
+      `<li class="account" data-id=${item.id}>
     <a href="#">
         <span>${item.name}</span> /
         <span>${item.sum} ₽</span>
@@ -104,6 +102,7 @@ class AccountsWidget {
    * */
   renderItem(data) {
     const accountsPanel = document.querySelector('.accounts-panel');
+    accountsPanel.innerHTML = '';
     data.forEach(item => {
       accountsPanel.insertAdjacentHTML('beforeend', this.getAccountHTML(item));
     });

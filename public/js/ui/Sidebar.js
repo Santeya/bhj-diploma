@@ -1,4 +1,3 @@
-
 /**
  * Класс Sidebar отвечает за работу боковой колонки:
  * кнопки скрытия/показа колонки в мобильной версии сайта и за кнопки меню
@@ -21,7 +20,7 @@ class Sidebar {
     const body = document.querySelector('.sidebar-mini');
     const sidebarToggle = document.querySelector('.sidebar-toggle');
 
-    sidebarToggle.addEventListener('touchstart', () => {
+    sidebarToggle.addEventListener('click', () => {
       body.classList.toggle('sidebar-open');
       body.classList.toggle('sidebar-collapse');
     })

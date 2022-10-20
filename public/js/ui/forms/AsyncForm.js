@@ -27,17 +27,8 @@ class AsyncForm {
   //  'название поля формы 2': 'значение поля формы 2'
   // }
   getData() {
-    const form = this.element.querySelector('.form');
-    const formData = new FormData(form); //Failed to construct 'FormData': parameter 1 is not of type 'HTMLFormElement'.
-    const entries = formData.entries();
-    const obj = {};
-    
-    for (let item of entries) {
-      const key = item[0];
-      const value = item[1];
-      obj.key = value;
-    }
-    return obj;
+    const formData = new FormData(this.element);
+    return Object.fromEntries(formData.entries());
   }
 
   onSubmit(options){

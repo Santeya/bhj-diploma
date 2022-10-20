@@ -29,12 +29,14 @@ class TransactionsPage {
    * TransactionsPage.removeAccount соответственно
    * */
   registerEvents() {
-    const removeAccountButton = document.querySelector('.remove-account');
-    const removeTransactionButton = document.querySelector('.transaction__remove');
-    removeAccountButton.onclick = (() => this.removeAccount());
-    removeTransactionButton.onclick = (() => this.removeTransaction());
+    this.element.addEventListener('click', (event) => {
+      if (event.target.classList.contains('remove-account')) {
+        this.removeAccount();
+      } if (event.target.classList.contains('transaction__remove')) {
+        this.removeTransaction();
+      }
+    })
   }
-
 
   /**
    * Удаляет счёт. Необходимо показать диаголовое окно (с помощью confirm())
@@ -48,7 +50,7 @@ class TransactionsPage {
   removeAccount() {
     if (this.lastOptions) {
       if (confirm('Вы действительно хотите удалить счёт?')) {
-        Account.remove(data, (err, response) => {
+        Account.remove(this.lastOptions.account.id, (err, response) => {
           if (response.success) {
             this.clear();
             App.updateWidgets();
@@ -65,9 +67,9 @@ class TransactionsPage {
    * По удалению транзакции вызовите метод App.update(),
    * либо обновляйте текущую страницу (метод update) и виджет со счетами
    * */
-  removeTransaction(id) {
+  removeTransaction() {
     if (confirm('Вы действительно хотите удалить транзакцию?')) {
-      Transaction.remove(data, (err, response) => {
+      Transaction.remove(id, (err, response) => {
         if (response.success) {
           App.update();
         }
@@ -163,6 +165,7 @@ class TransactionsPage {
    * */
   renderTransactions(data) {
     const content = document.querySelector('.content');
+    content.innerHTML = '';
     data.forEach(item => content.insertAdjacentHTML('beforeend', this.getTransactionHTML(item)));
   }
 }
