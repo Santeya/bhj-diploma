@@ -19,7 +19,7 @@ class TransactionsPage {
    * Вызывает метод render для отрисовки страницы
    * */
   update() {
-    this.render(options);
+    this.render(this.lastOptions);
   }
 
   /**
@@ -30,9 +30,9 @@ class TransactionsPage {
    * */
   registerEvents() {
     this.element.addEventListener('click', (event) => {
-      if (event.target.classList.contains('remove-account')) {
+      if (event.target.closest('remove-account')) {
         this.removeAccount();
-      } if (event.target.classList.contains('transaction__remove')) {
+      } if (event.target.closest('transaction__remove')) {
         this.removeTransaction();
       }
     })

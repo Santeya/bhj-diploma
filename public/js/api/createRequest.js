@@ -3,17 +3,20 @@
  * на сервер.
  * */
 const createRequest = (options = {}) => {
-    const { url, data, method, callback } = options;
+    
+    let { url, data, method, callback } = options;
     const xhr = new XMLHttpRequest;
     xhr.responseType = 'json';
 
-    const formData = new FormData();
+    let formData = new FormData();
    
-    if (method === 'GET') {
-        url += '?' + Object.entries(data).map(([key, value]) => `${key}=${value}`.join('&')); //createRequest.js:13 Uncaught TypeError: Cannot convert undefined or null to object ??
-        formData = '';
-    } else {
-        Object.entries(data).forEach((key, value) => formData.append(key, value));
+    if (data) {
+        if (method === 'GET') {
+            url += ('?' + Object.entries(data).map(([key, value]) => `${key}=${value}`).join('&'));
+            formData = '';
+        } else {
+            Object.entries(data).forEach(([key, value]) => formData.append(key, value));
+        }
     }
 
     try {

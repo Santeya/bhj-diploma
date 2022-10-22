@@ -25,10 +25,10 @@ class AccountsWidget {
    * */
   registerEvents() {
     this.element.addEventListener('click', (event) => {
-      if (event.target.classList.contains('create-account')) {
+      if (event.target.closest('create-account')) {
         App.getModal('createAccount').open();
       }
-      if (event.target.classList.contains('account')) {
+      if (event.target.closest('account')) {
         AccountsWidget.onSelectAccount(event.target.classList.contains('account'));
       }
     })
@@ -44,10 +44,10 @@ class AccountsWidget {
   update() {
     const currentUser = User.current();
     if (currentUser) {
-      Account.list(data, (err, response) => {
+      Account.list({}, (err, response) => {
         if (response.success) {
           this.clear();
-          this.renderItem();
+          this.renderItem(data);
         }
       })
     }
