@@ -9,7 +9,7 @@ class TransactionsPage {
    * */
   constructor(element) {
     if (!element) {
-      throw new error('Ошибка - передан пустой элемент для TransactionsPage!');
+      throw new Error('Ошибка - передан пустой элемент для TransactionsPage!');
     }
     this.element = element;
     this.registerEvents();
@@ -30,10 +30,10 @@ class TransactionsPage {
    * */
   registerEvents() {
     this.element.addEventListener('click', (event) => {
-      if (event.target.closest('remove-account')) {
+      if (event.target.closest('.remove-account')) {
         this.removeAccount();
-      } if (event.target.closest('transaction__remove')) {
-        this.removeTransaction();
+      } if (event.target.closest('.transaction__remove')) {
+        this.removeTransaction(event.target.closest('.transaction__remove').dataset.id);
       }
     })
   }
@@ -49,14 +49,14 @@ class TransactionsPage {
    * */
   removeAccount() {
     if (this.lastOptions) {
-      if (confirm('Вы действительно хотите удалить счёт?')) {
-        Account.remove(this.lastOptions.account.id, (err, response) => {
+      if (confirm('Вы действительно хотите удалить счёт?')) {    
+        Account.remove({ id: this.lastOptions.account_id }, (err, response) => {
           if (response.success) {
-            this.clear();
             App.updateWidgets();
             App.updateForms();
           }
         })
+        this.clear();
       }
     }
   }
@@ -67,9 +67,9 @@ class TransactionsPage {
    * По удалению транзакции вызовите метод App.update(),
    * либо обновляйте текущую страницу (метод update) и виджет со счетами
    * */
-  removeTransaction() {
+  removeTransaction(id) {
     if (confirm('Вы действительно хотите удалить транзакцию?')) {
-      Transaction.remove(id, (err, response) => {
+      Transaction.remove({ id: id }, (err, response) => {
         if (response.success) {
           App.update();
         }
@@ -86,14 +86,14 @@ class TransactionsPage {
   render(options) {
     if (options) {
       this.lastOptions = options;
-      Account.get(data, (err, response) => {
+      Account.get(options.account_id, (err, response) => {
         if (response.success) {
-          this.renderTitle(name);
+          this.renderTitle(response.data.name);
         }
       })
-      Transaction.list(data, (err, response) => {
+      Transaction.list(options, (err, response) => {
         if (response.success) {
-          this.renderTransactions(data);
+          this.renderTransactions(response.data);
         }
       })
     }
@@ -121,7 +121,7 @@ class TransactionsPage {
    * Форматирует дату в формате 2019-03-10 03:20:41 (строка)
    * в формат «10 марта 2019 г. в 03:20»
    * */
-  formatDate(date) {
+  formatDate() {
     this.date = new Date();
     return (this.date.toLocaleString('ru-RU', { dateStyle: 'long', timeStyle: 'short' })).replace(',', ' в');
   }

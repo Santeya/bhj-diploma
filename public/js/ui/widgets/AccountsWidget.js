@@ -11,7 +11,7 @@ class AccountsWidget {
    * */
   constructor(element) {
     if (!element) {
-      throw new error('Ошибка - передан пустой элемент для AccountsWidget!');
+      throw new Error('Ошибка - передан пустой элемент для AccountsWidget!');
     }
     this.element = element;
     this.registerEvents();
@@ -25,11 +25,11 @@ class AccountsWidget {
    * */
   registerEvents() {
     this.element.addEventListener('click', (event) => {
-      if (event.target.closest('create-account')) {
+      if (event.target.closest('.create-account')) {
         App.getModal('createAccount').open();
       }
-      if (event.target.closest('account')) {
-        AccountsWidget.onSelectAccount(event.target.classList.contains('account'));
+      if (event.target.closest('.account')) {
+        this.onSelectAccount(event.target.closest('.account'));
       }
     })
   }
@@ -42,12 +42,13 @@ class AccountsWidget {
    * Отображает список полученных счетов с помощью метода renderItem()
    * */
   update() {
+    
     const currentUser = User.current();
     if (currentUser) {
       Account.list({}, (err, response) => {
         if (response.success) {
           this.clear();
-          this.renderItem(data);
+          this.renderItem(response.data);
         }
       })
     }
@@ -72,13 +73,11 @@ class AccountsWidget {
    * */
   onSelectAccount(element) {
     const accounts = document.querySelectorAll('ul.accounts-panel > li.account');
-    accounts.onclick = function (event) {
       for (let account of accounts) {
         account.classList.remove('active');
       }
       element.classList.add('active');
       App.showPage('transactions', { account_id: element.dataset.id });
-    }
   }
 
   /**
@@ -101,8 +100,8 @@ class AccountsWidget {
    * и добавляет его внутрь элемента виджета
    * */
   renderItem(data) {
+    
     const accountsPanel = document.querySelector('.accounts-panel');
-    accountsPanel.innerHTML = '';
     data.forEach(item => {
       accountsPanel.insertAdjacentHTML('beforeend', this.getAccountHTML(item));
     });

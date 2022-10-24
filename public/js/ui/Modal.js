@@ -8,7 +8,7 @@ class Modal {
   // Если переданный элемент не существует, необходимо выкинуть ошибку.
   constructor(element){
     if (!element) {
-      throw new error('Ошибка - передан пустой элемент для Modal!');
+      throw new Error('Ошибка - передан пустой элемент для Modal!');
     }
     this.element = element;
     this.registerEvents();

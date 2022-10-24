@@ -7,7 +7,7 @@ class AsyncForm {
   // Сохраняет переданный элемент и регистрирует события через registerEvents()
   constructor(element) {
     if (!element) {
-      throw new error('Ошибка - передан пустой элемент для AsyncForm!');
+      throw new Error('Ошибка - передан пустой элемент для AsyncForm!');
     }
     this.element = element;
     this.registerEvents();

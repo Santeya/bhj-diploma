@@ -5,6 +5,18 @@
       "email": "demo@demo",
       "password": "demo",
       "id": "1"
+    },
+    {
+      "name": "ivan",
+      "email": "ivan@biz.pro",
+      "password": "odinodin",
+      "id": "1pr264kl9mln6ka"
+    },
+    {
+      "name": "olga",
+      "email": "olga@biz.pro",
+      "password": "dwadwa",
+      "id": "1pr2c40l9mxy1b7"
     }
   ],
   "accounts": [
@@ -22,6 +34,11 @@
       "name": "Бизнес",
       "user_id": "1",
       "id": "3"
+    },
+    {
+      "name": "Банк2",
+      "user_id": "1pr264kl9mln6ka",
+      "id": "1pr2d28l9mvjtia"
     }
   ],
   "transactions": [
@@ -159,6 +176,24 @@
       "sum": 300000,
       "type": "expense",
       "user_id": "1"
+    },
+    {
+      "id": "1pr2disl9mvkgll",
+      "type": "income",
+      "name": "подарок",
+      "sum": 1000,
+      "account_id": "1pr2d28l9mvjtia",
+      "user_id": "1pr264kl9mln6ka",
+      "created_at": "2022-10-24T14:29:25.641Z"
+    },
+    {
+      "id": "1pr26igl9mxe7de",
+      "type": "income",
+      "name": "++",
+      "sum": 750,
+      "account_id": "1pr2d28l9mvjtia",
+      "user_id": "1pr264kl9mln6ka",
+      "created_at": "2022-10-24T15:20:32.977Z"
     }
   ]
 }
