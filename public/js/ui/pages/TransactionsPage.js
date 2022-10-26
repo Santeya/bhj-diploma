@@ -1,12 +1,8 @@
-/**
- * Класс TransactionsPage управляет страницей отображения доходов и
- * расходов конкретного счёта
- * */
+// Класс TransactionsPage управляет страницей отображения доходов и расходов конкретного счёта
 class TransactionsPage {
-  /**
-   * Если переданный элемент не существует, необходимо выкинуть ошибку.
-   * Сохраняет переданный элемент и регистрирует события через registerEvents()
-   * */
+  
+  // Если переданный элемент не существует, необходимо выкинуть ошибку.
+  // Сохраняет переданный элемент и регистрирует события через registerEvents()
   constructor(element) {
     if (!element) {
       throw new Error('Ошибка - передан пустой элемент для TransactionsPage!');
@@ -15,19 +11,13 @@ class TransactionsPage {
     this.registerEvents();
   }
 
-  /**
-   * Вызывает метод render для отрисовки страницы
-   * */
+  // Вызывает метод render для отрисовки страницы
   update() {
     this.render(this.lastOptions);
   }
 
-  /**
-   * Отслеживает нажатие на кнопку удаления транзакции
-   * и удаления самого счёта. Внутри обработчика пользуйтесь
-   * методами TransactionsPage.removeTransaction и
-   * TransactionsPage.removeAccount соответственно
-   * */
+  // Отслеживает нажатие на кнопку удаления транзакции и удаления самого счёта. Внутри обработчика пользуйтесь
+  // методами TransactionsPage.removeTransaction и TransactionsPage.removeAccount соответственно
   registerEvents() {
     this.element.addEventListener('click', (event) => {
       if (event.target.closest('.remove-account')) {
@@ -38,15 +28,11 @@ class TransactionsPage {
     })
   }
 
-  /**
-   * Удаляет счёт. Необходимо показать диаголовое окно (с помощью confirm())
-   * Если пользователь согласен удалить счёт, вызовите
-   * Account.remove, а также TransactionsPage.clear с
-   * пустыми данными для того, чтобы очистить страницу.
-   * По успешному удалению необходимо вызвать метод App.updateWidgets() и App.updateForms(),
-   * либо обновляйте только виджет со счетами и формы создания дохода и расхода
-   * для обновления приложения
-   * */
+  // Удаляет счёт. Необходимо показать диаголовое окно (с помощью confirm())
+  // Если пользователь согласен удалить счёт, вызовите Account.remove, а также TransactionsPage.clear с
+  // пустыми данными для того, чтобы очистить страницу.
+  // По успешному удалению необходимо вызвать метод App.updateWidgets() и App.updateForms(),
+  // либо обновляйте только виджет со счетами и формы создания дохода и расхода для обновления приложения
   removeAccount() {
     if (this.lastOptions) {
       if (confirm('Вы действительно хотите удалить счёт?')) {    
@@ -61,12 +47,9 @@ class TransactionsPage {
     }
   }
 
-  /**
-   * Удаляет транзакцию (доход или расход). Требует
-   * подтверждеия действия (с помощью confirm()).
-   * По удалению транзакции вызовите метод App.update(),
-   * либо обновляйте текущую страницу (метод update) и виджет со счетами
-   * */
+  // Удаляет транзакцию (доход или расход). Требует подтверждеия действия (с помощью confirm()).
+  // По удалению транзакции вызовите метод App.update(), либо обновляйте текущую страницу (метод update) 
+  // и виджет со счетами
   removeTransaction(id) {
     if (confirm('Вы действительно хотите удалить транзакцию?')) {
       Transaction.remove({ id: id }, (err, response) => {
@@ -77,12 +60,8 @@ class TransactionsPage {
     }
   }
 
-  /**
-   * С помощью Account.get() получает название счёта и отображает
-   * его через TransactionsPage.renderTitle.
-   * Получает список Transaction.list и полученные данные передаёт
-   * в TransactionsPage.renderTransactions()
-   * */
+  // С помощью Account.get() получает название счёта и отображает его через TransactionsPage.renderTitle.
+  // Получает список Transaction.list и полученные данные передаёт в TransactionsPage.renderTransactions()
   render(options) {
     if (options) {
       this.lastOptions = options;
@@ -99,37 +78,26 @@ class TransactionsPage {
     }
   }
 
-  /**
-   * Очищает страницу. Вызывает
-   * TransactionsPage.renderTransactions() с пустым массивом.
-   * Устанавливает заголовок: «Название счёта»
-   * */
+  // Очищает страницу. Вызывает TransactionsPage.renderTransactions() с пустым массивом.
+  // Устанавливает заголовок: «Название счёта»
   clear() {
     this.renderTransactions([]);
     this.renderTitle('Название счёта');
     this.lastOptions = null;
   }
 
-  /**
-   * Устанавливает заголовок в элемент .content-title
-   * */
+  // Устанавливает заголовок в элемент .content-title
   renderTitle(name) {
     document.querySelector('.content-title').textContent = name;
   }
 
-  /**
-   * Форматирует дату в формате 2019-03-10 03:20:41 (строка)
-   * в формат «10 марта 2019 г. в 03:20»
-   * */
-  formatDate() {
-    this.date = new Date();
+  // Форматирует дату в формате 2019-03-10 03:20:41 (строка) в формат «10 марта 2019 г. в 03:20»
+  formatDate(date) {
+    this.date = new Date(date);
     return (this.date.toLocaleString('ru-RU', { dateStyle: 'long', timeStyle: 'short' })).replace(',', ' в');
   }
 
-  /**
-   * Формирует HTML-код транзакции (дохода или расхода).
-   * item - объект с информацией о транзакции
-   * */
+  // Формирует HTML-код транзакции (дохода или расхода). item - объект с информацией о транзакции
   getTransactionHTML(item) {
     let transactionType = item.type === 'income' ? 'transaction_income' : 'transaction_expense';
     return (
@@ -141,7 +109,7 @@ class TransactionsPage {
       <div class="transaction__info">
           <h4 class="transaction__title">${item.name}</h4>
           <!-- дата -->
-          <div class="transaction__date">${this.formatDate()}</div>
+          <div class="transaction__date">${this.formatDate(item.created_at)}</div>
       </div>
     </div>
     <div class="col-md-3">
@@ -160,9 +128,7 @@ class TransactionsPage {
     )
   }
 
-  /**
-   * Отрисовывает список транзакций на странице используя getTransactionHTML
-   * */
+  // Отрисовывает список транзакций на странице используя getTransactionHTML
   renderTransactions(data) {
     const content = document.querySelector('.content');
     content.innerHTML = '';
